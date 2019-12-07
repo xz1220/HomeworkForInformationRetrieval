@@ -56,6 +56,7 @@ $$
 
 模型结构图如下：
 
+
 <img height="400px"  src="img/arch.jpg"/>
 
 
@@ -74,12 +75,36 @@ $$
 
 
 ### Data Processing
-
-<img height="280px"  src="img/data_loader.png"/>
+```python
+'''
+- UserIDs range between 1 and 6040 
+- MovieIDs range between 1 and 3952
+- Ratings are made on a 5-star scale (whole-star ratings only)
+- Timestamp is represented in seconds since the epoch as returned by time(2)
+- Each user has at least 20 ratings
+'''
+rating_data=pd.read_csv("./ml-1m/ratings.dat",header=None,names=["UserID","MovieID","Rating","Timestamp"],sep='::')
+rating_data=rating_data.sample(frac=1)
+#len(rating_data)
+traindata=rating_data[:int(len(rating_data)*8/10)]
+validdata=rating_data[int(len(rating_data)*8/10):int(len(rating_data)*9/10)]
+testdata=rating_data[int(len(rating_data)*9/10):]
+print(len(traindata),len(validdata),len(testdata))
+```
 
 上述代码读取rating的数据，并且通过sample的方法将数据打乱，然后按照8：1：1的比例划分数据集。
 
-<img  height="183px"  src="img/data.png"/>
+```python
+train_user = traindata["UserID"].values
+train_movie = traindata["MovieID"].values
+train_x = [train_user,train_movie]
+train_y = traindata["Rating"].values
+
+valid_user = validdata["UserID"].values
+valid_movie = validdata["MovieID"].values
+valid_x = [valid_user,valid_movie]
+valid_y = validdata["Rating"].values
+```
 
 读取对应的列的数据。
 
@@ -88,7 +113,24 @@ keras是一个深度学习框架，类似于tensorflow和pytorch。但是封装�
 模型的实现直接调用keras内部的方法进行组装便可。
 embedding_1将输入映射到$N \times K$维度，而embedding_2将输入映射到$M \times K$维度。然后进行点乘运算，得到用户对与电影的评分，和原有的label算均方差loss，迭代优化，优化器为Adam。
 
-<img height="300px"  src="img/model.png"/>
+```python
+K.clear_session()
+def Recmand_model(num_user,num_movie,k):
+    input_uer = Input(shape=[None,],dtype="int32")
+    print(input_uer)
+    model_uer = Embedding(num_user+1,k,input_length = 1)(input_uer)
+    model_uer = Reshape((k,))(model_uer)
+    
+    input_movie = Input(shape=[None,],dtype="int32")
+    model_movie  = Embedding(num_movie+1,k,input_length = 1)(input_movie)
+    model_movie = Reshape((k,))(model_movie)
+    
+    out = Dot(1)([model_uer,model_movie])
+    model = Model(inputs=[input_uer,input_movie], outputs=out)
+    model.compile(loss='mse', optimizer='Adam')
+    model.summary()
+    return model
+```
 
 <img height="300px"  src="img/model_p.png"/>
 
