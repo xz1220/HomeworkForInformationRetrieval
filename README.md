@@ -91,7 +91,7 @@ validdata=rating_data[int(len(rating_data)*8/10):int(len(rating_data)*9/10)]
 testdata=rating_data[int(len(rating_data)*9/10):]
 print(len(traindata),len(validdata),len(testdata))
 ```
-
+![](http://latex.codecogs.com/gif.latex?)
 上述代码读取rating的数据，并且通过sample的方法将数据打乱，然后按照8：1：1的比例划分数据集。
 
 ```python
