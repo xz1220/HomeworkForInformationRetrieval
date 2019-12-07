@@ -53,7 +53,7 @@ $$
 
 ## Method
 本次实验所使用的方法来自于《Deep Matrix Factorization Models for Recommender Systems》这篇文章。是作者根据神经网络提出的一种新的矩阵分解模型，发表在2017年的IJCAI上。
-<img height="300px" src="https://github.com/xz1220/HomeworkForInformationRetrieval/blob/master/master/arch.jpg"/>
+<img height="300px" src="https://github.com/xz1220/HomeworkForInformationRetrieval/blob/master/arch.jpg"/>
 
 #### Data Processing
 
