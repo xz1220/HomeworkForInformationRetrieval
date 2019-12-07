@@ -5,7 +5,7 @@
 
 ___
 
->协同过滤在推荐系统领域有着广泛的应用。矩阵分解算法是其中具有代表性的算法之一。在本次课程作业中，针对于ml-1m数据集，我们利用了pandas进行数据的读取和划分，8/10为训练集，1/10为验证集，1/10为测试集。并且，我们使用keras实现了一个简单的神经网络模型来拟合一个矩阵分解算法。由于数据集较小的缘故，我们使用了早停的方式来防止模型对数据集过拟合。在训练集上，模型的loss降低至**0.49**，在验证集和测试集上，模型的loss也只有**0.75**。
+>协同过滤在推荐系统领域有着广泛的应用。矩阵分解算法是其中具有代表性的算法之一。在本次课程作业中，针对于ml-1m数据集，我们利用了pandas进行数据的读取和划分，8/10为训练集，1/10为验证集，1/10为测试集。并且，我们使用keras实现了一个简单的神经网络模型来拟合一个矩阵分解算法。由于数据集较小的缘故，我们使用了早停的方式来防止模型对数据集过拟合。在训练集上，模型的loss降低至**0.75**，在验证集和测试集上，模型的loss也只有**0.80**。
 
 
 ## Introduction
@@ -19,7 +19,7 @@ movielens 数据集收集了许多人关于不同电影的评价。这次我们�
 
 - users
   - Gender ：表示性别。M代表男性，F代表女性。
-  - Age ：1 表示小于18岁；18 意味着年龄在 18~24 之间；25 意味着年龄在 25~34 之间；以此类推。
+  - Age ：1 表示小于18岁；18 意味着年龄在 18-24 之间；25 意味着年龄在 25-34 之间；以此类推。
   - Occupation ：表示职业。
 
 - movies
@@ -54,7 +54,11 @@ $$
 ## Method
 本次实验所使用的方法来自于《Deep Matrix Factorization Models for Recommender Systems》这篇文章。是作者根据神经网络提出的一种新的矩阵分解模型，发表在2017年的IJCAI上。
 
-<img height="400px"  src="img/arch.jpg" style="float:right"/>
+模型结构图如下：
+
+<img height="400px"  src="img/arch.jpg"/>
+
+
 
 
 作者的贡献有如下几点：
@@ -71,75 +75,43 @@ $$
 
 ### Data Processing
 
+<img height="280px"  src="img/data_loader.png"/>
+
+上述代码读取rating的数据，并且通过sample的方法将数据打乱，然后按照8：1：1的比例划分数据集。
+
+<img  height="183px"  src="img/data.png"/>
+
+读取对应的列的数据。
 
 ### Model
+keras是一个深度学习框架，类似于tensorflow和pytorch。但是封装性更好。事实上，keras没有自己的计算引擎，它的后端是连接到tensorflow或者thenos。
+模型的实现直接调用keras内部的方法进行组装便可。
+embedding_1将输入映射到$N \times K$维度，而embedding_2将输入映射到$M \times K$维度。然后进行点乘运算，得到用户对与电影的评分，和原有的label算均方差loss，迭代优化，优化器为Adam。
+
+<img height="300px"  src="img/model.png"/>
+
+<img height="300px"  src="img/model_p.png"/>
+
+由于我们划分了验证机和测试集，为了防止过拟合，我们在训练过程中对验证集进行测试，停止训练的策略为：当模型在验证集上的均方误差连续两个epoch都没有下降的时候，停止模型的训练。
+
+下图是模型在训练过程中的loss的变化曲线，可以看到训练误差和验证误差之间的差距是非常的小的，以及它们的下降趋势是非常一致的。
+
+<img height="300px"  src="img/model_loss.png"/>
+
+测试集上的loss也表现正常。
+
+<img height="150px"  src="img/test_result.png"/>
 
 
+## Summary
+通过这次课程实验，收获如下：
 
+- 熟悉如何使用keras这个框架
+- 熟悉DMF算法的原理以及实现
+- 锻炼总结报告的能力
 
+也收获了推荐究竟是怎么做到，对其有了一个简陋幼稚的概念。
 
-
-
-
-## Text Formating
-
-Regular, **bold**, *italic*, ~~strike~~, ==hightlight==, `inline-code`,*emphasis^,<!--comment-->,
-
-## Cites
-
-> This is a cite
-
-## Inline math:
-
-Inline math $ X^2 + 1 = 1 $ works fine.
-
-## Math Block:
-
-$$
-X^2 + 1 = 1
-$$
-
-## Tables:
-
-| First Column | Second Column | Third Column |
-| ------------ | ------------- | ------------ |
-| One          | Two           | Three        |
-| Four         | Five          | Six          |
-
-## Code:
-
-```js
-import someCode from 'someLibrary';
-```
-
-
-
-## Lists
-
-- First item
-- Second item
-  - Third item
-    - Another level
-
-## Links
-
-[This is a link](www.google.com)
-
-## Footnote
-
-Some thing 
-
-## Superscripts
-
-Example^1^
-
-Example~2~
-
-## Images
-
-<img height="300px" src="arch.jpg"/>
-
-## 
 
 
 
