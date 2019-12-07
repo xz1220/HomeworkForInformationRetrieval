@@ -53,11 +53,26 @@ $$
 
 ## Method
 本次实验所使用的方法来自于《Deep Matrix Factorization Models for Recommender Systems》这篇文章。是作者根据神经网络提出的一种新的矩阵分解模型，发表在2017年的IJCAI上。
-<img height="300px" src="https://github.com/xz1220/HomeworkForInformationRetrieval/blob/master/arch.jpg"/>
 
-#### Data Processing
+<img height="400px"  src="arch.jpg" style="float:right"/>
 
-#### Model
+
+作者的贡献有如下几点：
+- 利用DMF将显示反馈输入中包含的用户和物品信息非线性地
+映射到了一个低维空间。
+- 提出一种既包含显式反馈又包含隐式反馈的损失函数。
+- 在多个数据集上跑出来的效果都非常可观。
+
+
+在接下来的部分我们主要是讲解我们的代码。主要是对关键部分
+的代码做一下说明。
+
+
+
+### Data Processing
+
+
+### Model
 
 
 
@@ -122,7 +137,7 @@ Example~2~
 
 ## Images
 
-<img height="300px" src="https://image.freepik.com/vector-gratis/garabatos-ciencia_23-2147501583.jpg"/>
+<img height="300px" src="arch.jpg"/>
 
 ## 
 
