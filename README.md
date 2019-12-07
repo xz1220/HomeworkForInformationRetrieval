@@ -1,9 +1,11 @@
-<h1 style="text-align: center"> README </h1>
-<div style="text-align: center"><small>IagoLast - 2019</small></div>
+<h1 style="text-align: center"> 基于矩阵分解算法的评分预测实现 </h1>
+<div style="text-align: center"><big>邢政     2017060801025</big></div>
+<div style="text-align: center"><small>12 - 7 - 2019</small></div>
+
 
 ___
 
-A typora theme using latex fonts to be used in academic work.
+
 
 ---
 
