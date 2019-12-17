@@ -147,6 +147,39 @@ def Recmand_model(num_user,num_movie,k):
 
 <img height="150px"  src="img/test_result.png"/>
 
+#### 问题
+如果评分市连续的,那么我们的模型是没有问题的.如果,我们将评分看做是不连续的,那么,需要对模型做一些更改.
+
+<img height="300px"  src="img/model_new.png"/>
+
+```python
+ out2 = keras.layers.core.Dense(units=6,input_shape=(1,),kernel_initializer='normal',activation='softmax')(out)
+```
+
+我们在最后加了一层全连接层,目的是位列将点乘之后的得分映射为一个one-hot向量,最终的评分为向量中最大的数的下标.
+
+最终,我们看的是模型在测试集上分类正确的准确率,大约为50%左右:
+```python
+
+def error_rate(pre,label):
+    length=len(testdata)
+    maxNumber=np.max(pre,axis=1)
+    correct=0
+    for i in range(length):
+        index=np.where(pre[i]==maxNumber[i])
+        index=int(index[0])
+        #print(index,testdata[i])
+        if index==label[i]:
+            correct+=1
+    print(correct)
+
+
+pre=model.predict([testdata["UserID"].values,testdata["MovieID"].values])
+label=testdata["Rating"].values
+error_rate(pre,label)
+
+```
+
 
 ## Summary
 通过这次课程实验，收获如下：
